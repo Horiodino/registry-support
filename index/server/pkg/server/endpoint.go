@@ -487,6 +487,13 @@ func buildIndexAPIResponse(c *gin.Context, indexType string, wantV1Index bool, p
 			log.Println(err)
 		}
 	}
+
+	if indexType == string(indexSchema.SampleDevfileType) && len(index) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status": fmt.Sprintf("no sample devfile in the registry"),
+		})
+		return
+	}
 }
 
 // buildProxyErrorResponse builds an error response for proxy routes
